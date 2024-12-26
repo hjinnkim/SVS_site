@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="keywords" content="SVS, Singular Value Scaling, generative model compression, Efficient generative model">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="IYymxWwPaxtVlFH8FLH35zgFoZlGsJb2dLcENRc0unw" />
+  <title>Singular Value Scaling: Efficient Generative Model Compression via Pruned Weights Refinement</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH1SJVRE8F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NH1SJVRE8F');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+  <script
+	type="text/javascript"
+    async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML"
+  ></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://github.com/hjinnkim">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hjinnkim.github.io/SVS_site">
+            Singular Value Scaling
+          </a>
+          <!-- <a class="navbar-item" href="/path/to/other/project_page">
+            other project page
+          </a> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title">Singular Value Scaling: Efficient Generative Model Compression via Pruned Weights Refinement (AAAI 2025)</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/hjinnkim">Hyeonjin Kim,</a></span>
+            <span class="author-block">
+              <a href="https://scholar.google.co.kr/citations?hl=en&user=7NBlQw4AAAAJ">Jaejun Yoo</a><sup>*</sup></span>
+            </span>
+          </div>
+
+          <div class="is-size-6 publication-authors">
+            <span class="author-block">*: corresponding author</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Ulsan National Institute of Science and Technology</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/abs/2312.09008.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2412.17387"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/hjinnkim/Singular-Value-Scaling"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h4 class="title is-5">FID convergence graph of StyleGAN2 compressed by different methods.</h4>
+        <img src="./static/images/main_fid_convergence.png" alt="Teaser image">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            While pruning methods effectively maintain model performance without extra training costs, they often focus solely on preserving crucial connections, overlooking the impact of pruned weights on subsequent fine-tuning or distillation, leading to inefficiencies. Moreover, most compression techniques for generative models have been developed primarily for GANs, tailored to specific architectures like StyleGAN, and research into compressing Diffusion models has just begun. Even more, these methods are often applicable only to GANs or Diffusion models, highlighting the need for approaches that work across both model types. 
+          </p>
+          <p>
+            In this paper, we introduce Singular Value Scaling (SVS), a versatile technique for refining pruned weights, applicable to both model types. Our analysis reveals that pruned weights often exhibit dominant singular vectors, hindering fine-tuning efficiency and leading to suboptimal performance compared to random initialization. Our method enhances weight initialization by minimizing the disparities between singular values of pruned weights, thereby improving the fine-tuning process. This approach not only guides the compressed model toward superior solutions but also significantly speeds up finetuning. 
+          </p>
+          <p>Extensive experiments on StyleGAN2, StyleGAN3 and DDPM demonstrate that SVS improves compression performance across model types without additional training costs. Over, in terms of FID scores, our method not only surpasses state-of-the-art by a large margin but also achieves comparable scores with only half training iterations.
+          </p>
+          <p>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Analysis and Method</h2>
+        <div class="content has-text-justified">
+        <p>
+         <b>(a) Dominant singular vectors in pruned weights.</b>
+         We analyze the learned prior of pruned weights inherited from the pre-trained model by employing Singular Value Decomposition (SVD). Each singular value represents the influence of its corresponding singular vector within the weight. The most notable observation is the large gap between the largest and smallest singular values of pruned weights (\(\sim\) \(\times\) 100). This implies that the forward and backward propagations of the weights are heavily influenced by these dominant singular vectors. This can potentially bias the compressed model towards these singular vectors during training, severely limiting diverse exploration in the weight space.
+        </p>
+        </p>
+          <b>(b) Our framework.</b>
+          Based on our observation, we propose “Singular Value Scaling (SVS)”, to refine pruned weights to enhance fine-tuning efficiency. Our primary goal is to reduce the gap between the singular values of pruned weights. To achieve this, we simply scale the singular values using the “square root function”. By scaling the singular values of pruned weights in this manner, we can preserve the original bases while balancing their relative contributions. This balanced contribution helps the compressed model fully leverage the pre-trained model’s knowledge, facilitating a more effective path to the optimal solution. 
+        </p>
+        <img src="./static/images/main_framework.png" alt="Overview for our method">
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Quantitative Results on StyleGAN2 compression</h2>
+          <img src="./static/images/main_stylegan2_table.png" alt="Quantitative Results on StyleGAN2 compression">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Quantitative Results on DDPM compression</h2>
+          <img src="./static/images/main_ddpm_table.png" alt="Quantitative Results on DDPM compression">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Qualitative Results on StyleGAN2 compression</h2>
+          <img src="./static/images/main_qualitative_results.png" alt="Qualitative comparisons for the baselines">
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{kim2024singularvaluescalingefficient,
+      title={Singular Value Scaling: Efficient Generative Model Compression via Pruned Weights Refinement}, 
+      author={Hyeonjin Kim and Jaejun Yoo},
+      year={2024},
+      eprint={2412.17387},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2412.17387}, 
+
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website template is borrowed from <a href="https://nerfies.github.io/">Nerfies</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
